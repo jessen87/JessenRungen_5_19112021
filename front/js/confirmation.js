@@ -1,4 +1,4 @@
-// Getting the order Id with the URL
+// Obtenir l'identifiant de la commande avec l'URL
 function idRecuperation() {
 	let url = new URL(window.location.href);
 	let searchParams = new URLSearchParams(url.search);
