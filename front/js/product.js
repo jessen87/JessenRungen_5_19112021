@@ -95,8 +95,15 @@ Pour consulter votre panier, cliquez sur OK`)){
             window.location.href ="cart.html";
         }
     }
-
-    //Importation dans le local storage
+    
+    function itemInCart(productId, color, quantity) {
+        //if (quantity == 0 || color == 0) {
+        if ((color == 0) || ((quantity == null) || (quantity < 1) || (quantity > 100))) {
+            window.alert("Veuillez choisir une couleur et une quantité comprise entre min:1 et max:100 pour votre canapé, merci.");
+            return;
+        }
+    
+        //Importation dans le local storage
     //Si le panier comporte déjà au moins 1 article
     if (produitLocalStorage) {
     const resultFind = produitLocalStorage.find(
