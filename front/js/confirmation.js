@@ -1,8 +1,14 @@
-function main(){
-    const idNode = document.getElementById("orderId");
-    idNode.innerText = localStorage.getItem("orderId");
-    console.log(localStorage.getItem("orderId"))
-    localStorage.clear();
-}
+//--------Affichage de l'id de la commande -----------------//
 
-main();
+// Récupération de l'url de la page de confirmation
+const confirmationPage = window.location.href;
+const orderConfirm = new URL(confirmationPage);
+
+// Récupération de l'id de la commande présent dans l'url spécifique
+const getResponseId = orderConfirm.searchParams.get("id");
+// Injection de l'id dans le DOM
+document.querySelector("#orderId").innerText = getResponseId;
+
+// Vidage des données du local storage
+localStorage.removeItem("cart");
+
