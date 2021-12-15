@@ -1,48 +1,65 @@
-fillSection();
+//---------- Importation et affichage des articles -------------------//
 
-// Récupération des articles de l'API
-async function getArticles() {
-    var articlesCatch = await fetch("http://localhost:3000/api/products")
-    return await articlesCatch.json();
-}
-
-    // Répartition des données de l'API dans le DOM
-async function fillSection() {
-    var result = await getArticles ()
-    .then(function (resultatAPI){
-        const articles = resultatAPI;
-        console.table(articles);
-        for (let article in articles) {
-
-            // Insertion de l'élément "a"
-            let productLink = document.createElement("a");
-            document.querySelector(".items").appendChild(productLink);
-            productLink.href = `product.html?id=${resultatAPI[article]._id}`;
-
-            // Insertion de l'élément "article"
-            let productArticle = document.createElement("article");
-            productLink.appendChild(productArticle);
-
-            // Insertion de l'image
-            let productImg = document.createElement("img");
-            productArticle.appendChild(productImg);
-            productImg.src = resultatAPI[article].imageUrl;
-            productImg.alt = resultatAPI[article].altTxt;
-
-            // Insertion du titre "h3"
-            let productName = document.createElement("h3");
-            productArticle.appendChild(productName);
-            productName.classList.add("productName");
-            productName.innerHTML = resultatAPI[article].name;
-
-            // Insertion de la description "p"
-            let productDescription = document.createElement("p");
-            productArticle.appendChild(productDescription);
-            productDescription.classList.add("productName");
-            productDescription.innerHTML = resultatAPI[article].description;
+// Requête GET de récupération des produits depuis l'API
+fetch("http://localhost:3000/api/products")
+    .then(function (res) {
+        if (res.ok) {
+            return res.json();
         }
     })
-    .catch (function(error){
-        return error;
+
+    /* Récupération de la réponse émise
+    Fonction qui va afficher les objets dans le DOM automatiquement */
+    .then(function (items) {
+        console.log(items);
+
+        //Boucle pour afficher chaque article de tous les produits
+        for (let article of items) {
+            displayProduct(article);
+            console.log(article);
+        }
+    })
+    //Intercepte la promesse rejetée et affiche message d'erreur
+    .catch(function (err) {
+        console.log("Fetch Failed", err);
+        let items = document.querySelector("#items");
+        items.innertHTML = "Affichage momentanément indisponible. Veuillez revenir plus tard.";
     });
+
+
+/* --- Fonction des informations de chaque produit
+Créer les éléments html et mettre les données à l'intérieur --- */
+
+function displayProduct(article) {
+    /* Paramétrage de l'attribut 'href' de la balise 'a' 
+     --- avec ID pour récupération de l'article depuis la page produit --- */
+    let productLink = document.createElement("a");
+    document.querySelector(".items").appendChild(productLink);
+    productLink.href = `product.html?id=${article._id}`;
+
+    let itemArticle = document.createElement("article");
+    productLink.appendChild(itemArticle);
+
+    // Affiche image et texte alternatif
+    let productImg = document.createElement("img");
+    itemArticle.appendChild(productImg);
+    productImg.src = article.imageUrl;
+    productImg.alt = article.altTxt;
+
+    // Affichage du nom du produit
+    let productName = document.createElement("h3");
+    itemArticle.appendChild(productName);
+    productName.classList.add("productName");
+    productName.innerHTML = article.name;
+
+    // Affichage de la description du produit
+    let productDescription = document.createElement("p");
+    itemArticle.appendChild(productDescription);
+    productDescription.classList.add("productDescription");
+    productDescription.innerHTML = article.description;
 }
+
+
+
+
+
