@@ -107,11 +107,9 @@ function colorValue() {
 
 //Fenêtre de confirmation des options sélectionnées
 const confirmationWindow = () => {
-    if (window.confirm(`Votre choix de couleur: ${colorValue()} et de quantité: ${quantityValue()} a bien été ajouté à votre panier. \n Consultez le panier OK, revenir à l'accueil Annuler`)) {
-        window.location.href = "cart.html";
-    } else {
-        window.location.href = "index.html";
-    }
+    if (window.confirm(`Votre choix de couleur: ${colorValue()} et de quantité: ${quantityValue()} a bien été ajouté à votre panier.`)) {
+        
+     }
 }
 
 /**
